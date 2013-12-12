@@ -4,7 +4,7 @@
 void shuf(int *nn, int n) {
     int i, p, t;
     for(i=0;i<n;i++) {
-        p=rand()%n;
+        p=rand()%(n-i)+i;
 	t=nn[p];
 	nn[p]=nn[i];
 	nn[i]=t;
