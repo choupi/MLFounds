@@ -23,7 +23,13 @@ int main(int argc, char* argv[])
     float s;
     float x1, x2, x3, x4;
     int nn[1000];
-    srand(time(NULL));
+    struct timeval tt;
+    unsigned int t;
+    gettimeofday(&tt, NULL);
+    t=tt.tv_sec*1000+tt.tv_usec/1000;
+    //printf("%u\n", t);
+    //srand(time(NULL));
+    srand(t);
 
     i=0;
     while(EOF!=scanf(" %f %f %f %f %d", x[i],x[i]+1,x[i]+2,x[i]+3,y+i)) {
