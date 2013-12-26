@@ -3,7 +3,6 @@
 #include <math.h>
 
 #define MODN (33554432)
-#define N (20)
 #define SIGN(x) (x>0?1:-1)
 
 int cmp_f(const void * a, const void * b)
@@ -24,10 +23,10 @@ void rand_seed() {
 
 int main()
 {
-    int i, j, k, mk, s;
-    float x[100];
-    float tx[100];
-    int y[100];
+    int i, j, k, mk, s, N=20;
+    float x[200];
+    float tx[200];
+    int y[200];
     float theta, mt;
     rand_seed();
 
