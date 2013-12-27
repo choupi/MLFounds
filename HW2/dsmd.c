@@ -31,9 +31,9 @@ int main(int argc, char* argv[])
 {
     FILE* test=fopen(argv[1], "r");
     int i, j, q, k, mk, s, N, mq, p;
-    float x[100][10];
-    float tx[100];
-    int y[100];
+    float x[200][10];
+    float tx[200];
+    int y[200];
     float theta, mt;
     rand_seed();
 
