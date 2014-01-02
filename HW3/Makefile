@@ -1,0 +1,1 @@
+CFLAGS=-lblas -llapack -llapacke
