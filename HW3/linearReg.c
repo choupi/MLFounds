@@ -29,13 +29,13 @@ void transMatrix(float* M, int m, int n, int ld)
     }
 }
 
-void pseudoInv(int m, int n, float* A)
+void pseudoInv(int m, int n, float* A, float* AA)
 {
     int dS=min(m,n);
     float* S=(float*)malloc(dS*sizeof(float));
     float* U=(float*)malloc(m*m*sizeof(float));
     float* V=(float*)malloc(n*n*sizeof(float));
-    float* AA=(float*)malloc(m*n*sizeof(float));
+    //float* AA=(float*)malloc(m*n*sizeof(float));
     float* ftmp=(float*)malloc(m*n*sizeof(float));
     float eps=10e-8, tmp;
     int InfoSVD=0;
@@ -61,13 +61,23 @@ void pseudoInv(int m, int n, float* A)
 
     //cblas_sgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, n, m, dS, 1.0, V, ldv, U, ldu, 0.0, AA, ldu);
     cblas_sgemm(CblasRowMajor, CblasTrans, CblasTrans, n, m, dS, 1.0, V, ldv, U, ldu, 0.0, AA, ldu);
-    printMatrix('A', AA, n, m, ldu);
     free(S); free(U); free(V); free(ftmp);
+}
+
+void linearRegW(int m, int n, float* AA, float* y, float* w)
+{
+    cblas_sgemv(CblasRowMajor, CblasNoTrans, n, m, 1.0, AA, m, y, 1, 0.0, w, 1);
 }
 
 int main()
 {
     float A[10]={1,2,3,4,5,6,7,8,9,10};
+    float AA[10];
+    float w[2];
+    float y[5]={1,1,1,-1,-1};
     printMatrix('A', A, 5, 2, 2);
-    pseudoInv(4,2,A);
+    pseudoInv(4,2,A,AA);
+    printMatrix('A', AA, 2, 4, 4);
+    linearRegW(4,2,AA,y,w);
+    printMatrix('w', w, 2, 1, 1);
 }
