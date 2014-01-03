@@ -28,5 +28,5 @@ int main()
 	y[i]=SIGN2(x[i][0],x[i][1]);
     }
     for(i=0;i<N*0.1;i++) y[i]*=-1; 
-    for(i=0;i<N;i++) printf("%f %f %d\n", x[i][0], x[i][1], y[i]);
+    for(i=0;i<N;i++) printf("1 %f %f %d\n", x[i][0], x[i][1], y[i]);
 }
