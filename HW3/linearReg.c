@@ -42,9 +42,9 @@ void pseudoInv(int m, int n, float* A, float* AA)
     int i, j, lda=n, ldu=m, ldv=n;
     InfoSVD=LAPACKE_sgesvd(LAPACK_ROW_MAJOR, 'A', 'A', m, n, A, lda, S, U, ldu, V, ldv, ftmp);
 
-    printMatrix('S', S, dS, 1, 1);
-    printMatrix('U', U, m, dS, ldu);
-    printMatrix('V', V, dS, n, ldv);
+    //printMatrix('S', S, dS, 1, 1);
+    //printMatrix('U', U, m, dS, ldu);
+    //printMatrix('V', V, dS, n, ldv);
 
     for(i=0;i<dS;i++) {
         if(S[i]>eps) S[i]=1.0/S[i];
@@ -52,7 +52,7 @@ void pseudoInv(int m, int n, float* A, float* AA)
     }
     for(i=0;i<m;i++) for(j=0;j<dS;j++) U[i*ldu+j]*=S[j];
     for(i=0;i<m;i++) for(j=dS;j<m;j++) U[i*ldu+j]=0;
-    printMatrix('U', U, m, dS, ldu);
+    //printMatrix('U', U, m, dS, ldu);
 
     //transMatrix(U, m, m, ldu);
     //printMatrix('U', U, dS, m, ldu);
@@ -69,15 +69,40 @@ void linearRegW(int m, int n, float* AA, float* y, float* w)
     cblas_sgemv(CblasRowMajor, CblasNoTrans, n, m, 1.0, AA, m, y, 1, 0.0, w, 1);
 }
 
+void linearRegPred(int m, int n, float* A, float* w, float* y)
+{
+    cblas_sgemv(CblasRowMajor, CblasNoTrans, m, n, 1.0, A, n, w, 1, 0.0, y, 1);
+}
+
+int verify(int m, float* y, float* yy) 
+{
+    int i, k=0;
+    for(i=0;i<m;i++) if(y[i]*yy[i]>0) k++;
+    return k;
+}
+
 int main()
 {
-    float A[10]={1,2,3,4,5,6,7,8,9,10};
-    float AA[10];
+    float A[5000];
+    float AA[5000];
     float w[2];
-    float y[5]={1,1,1,-1,-1};
-    printMatrix('A', A, 5, 2, 2);
-    pseudoInv(4,2,A,AA);
-    printMatrix('A', AA, 2, 4, 4);
-    linearRegW(4,2,AA,y,w);
-    printMatrix('w', w, 2, 1, 1);
+    float y[1000];
+    float yy[1000];
+    int i, N, k, d=2;
+
+    while(EOF!=scanf(" %f %f %f ", A+i*2, A+i*2+1, y+i)) {
+        i++;
+    }
+    N=i;
+    //printf("%d\n", N);
+    //printMatrix('A', A, N, 2, 2);
+    //printMatrix('y', y, N, 1, 1);
+    pseudoInv(N,d,A,AA);
+    //printMatrix('A', AA, 2, N, N);
+    linearRegW(N,d,AA,y,w);
+    //printMatrix('w', w, d, 1, 1);
+    linearRegPred(N,d,A,w,yy);
+    //printMatrix('y', yy, N, 1, 1);
+    k=verify(N, y, yy);
+    printf("%d %d %f\n", k, N, 1-(float)k/N);
 }
