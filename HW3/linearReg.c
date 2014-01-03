@@ -3,6 +3,7 @@
 #include <lapacke.h>
 #include <cblas.h>
 
+#define MAXN (1000)
 #define min(a,b) ((a)>(b)?(b):(a))
 
 void printMatrix(char MN, float* M, int m, int n, int ld)
@@ -81,16 +82,16 @@ int verify(int m, float* y, float* yy)
     return k;
 }
 
-int main()
+int main(int argc, char*argv[])
 {
-    float A[5000];
-    float AA[5000];
-    float w[2];
-    float y[1000];
-    float yy[1000];
-    int i, N, k, d=2;
+    int i, N, k, d=3;
+    float* A=(float*)malloc(MAXN*d*sizeof(float));
+    float* AA=(float*)malloc(MAXN*d*sizeof(float));
+    float* w=(float*)malloc(d*sizeof(float));
+    float* y=(float*)malloc(MAXN*sizeof(float));
+    float* yy=(float*)malloc(MAXN*sizeof(float));
 
-    while(EOF!=scanf(" %f %f %f ", A+i*2, A+i*2+1, y+i)) {
+    while(EOF!=scanf(" %f %f %f %f ", A+i*d, A+i*d+1, A+i*d+2, y+i)) {
         i++;
     }
     N=i;
