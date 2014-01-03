@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <lapacke.h>
 #include <cblas.h>
 
@@ -86,6 +87,7 @@ int main(int argc, char*argv[])
 {
     int i, j, N, k, d=atoi(argv[1]);
     float* A=(float*)malloc(MAXN*d*sizeof(float));
+    float* TA=(float*)malloc(MAXN*d*sizeof(float));
     float* AA=(float*)malloc(MAXN*d*sizeof(float));
     float* w=(float*)malloc(d*sizeof(float));
     float* y=(float*)malloc(MAXN*sizeof(float));
@@ -102,10 +104,11 @@ int main(int argc, char*argv[])
         i++;
     }
     N=i;
+    memcpy(TA, A, N*d*sizeof(float));
     //printf("%d\n", N);
     //printMatrix('A', A, N, d, d);
     //printMatrix('y', y, N, 1, 1);
-    pseudoInv(N,d,A,AA);
+    pseudoInv(N,d,TA,AA);
     //printMatrix('A', AA, 2, N, N);
     linearRegW(N,d,AA,y,w);
     //printMatrix('w', w, d, 1, 1);
