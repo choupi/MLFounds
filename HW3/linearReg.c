@@ -84,19 +84,26 @@ int verify(int m, float* y, float* yy)
 
 int main(int argc, char*argv[])
 {
-    int i, N, k, d=3;
+    int i, j, N, k, d=atoi(argv[1]);
     float* A=(float*)malloc(MAXN*d*sizeof(float));
     float* AA=(float*)malloc(MAXN*d*sizeof(float));
     float* w=(float*)malloc(d*sizeof(float));
     float* y=(float*)malloc(MAXN*sizeof(float));
     float* yy=(float*)malloc(MAXN*sizeof(float));
 
-    while(EOF!=scanf(" %f %f %f %f ", A+i*d, A+i*d+1, A+i*d+2, y+i)) {
+    //while(EOF!=scanf(" %f %f %f %f ", A+i*d, A+i*d+1, A+i*d+2, y+i)) {
+    k=0;
+    while(1) {
+        for(j=0;j<d;j++) {
+	    if(EOF==scanf(" %f", A+i*d+j)) { k=1; break; }
+	}
+	if(EOF==scanf(" %f", y+i)) { k=1; break; }
+	if(k) break;
         i++;
     }
     N=i;
     //printf("%d\n", N);
-    //printMatrix('A', A, N, 2, 2);
+    //printMatrix('A', A, N, d, d);
     //printMatrix('y', y, N, 1, 1);
     pseudoInv(N,d,A,AA);
     //printMatrix('A', AA, 2, N, N);
