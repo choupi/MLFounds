@@ -8,5 +8,8 @@ def e(a):
   if a<0: return 1
   return 0
 
-for i in xrange(-10,10):
+for i in xrange(-3,3):
+  print e(i), theta(-1*i), max(0,1-i), max(0,-1*i), max(0,1-i)*max(0,1-i)
+for j in xrange(-3,3):
+  i=j/10.0*3
   print e(i), theta(-1*i), max(0,1-i), max(0,-1*i), max(0,1-i)*max(0,1-i)
